@@ -59,7 +59,9 @@ jobs:
       - name: Policy check
         id: policy
         continue-on-error: true
-        run: conftest test plan.json --no-color | tee policy.txt
+        run: |
+          set -o pipefail
+          conftest test plan.json --no-color | tee policy.txt
 
       - name: Comment plan and policy on the PR
         env:
@@ -114,7 +116,7 @@ jobs:
             | tar xz gitleaks
           sudo mv gitleaks /usr/local/bin/
           OSV_VERSION=2.2.1
-          curl -sSL "https://github.com/google/osv-scanner/releases/download/v${OSV_VERSION}/osv-scanner_${OSV_VERSION}_linux_amd64" \
+          curl -sSL "https://github.com/google/osv-scanner/releases/download/v${OSV_VERSION}/osv-scanner_linux_amd64" \
             -o osv-scanner
           chmod +x osv-scanner
           sudo mv osv-scanner /usr/local/bin/
